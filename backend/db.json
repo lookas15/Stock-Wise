@@ -1,0 +1,64 @@
+{
+  "users": [
+    {
+      "id": 1746870888607,
+      "firstName": "Rigel",
+      "lastName": "Alvorna",
+      "email": "rigel@example.com",
+      "phone": "08123456789",
+      "password": "password123"
+    },
+    {
+      "id": 1746871580623,
+      "firstName": "Lucky",
+      "lastName": "Kimtheja",
+      "email": "rachelrosewellfinessa@gmail.com",
+      "phone": "082151606001",
+      "password": "Penajam2002"
+    }
+  ],
+  "inventory": [
+    {
+      "id": "1746983765782",
+      "name": "BonecaAmbalalu",
+      "stock": 1000,
+      "alert": 20,
+      "status": "OK"
+    },
+    {
+      "id": "1746983780542",
+      "name": "sadf",
+      "stock": 10000000,
+      "alert": 2347,
+      "status": "OK"
+    },
+    {
+      "id": "1746983790207",
+      "name": "BonecaAmbalaluweq",
+      "stock": 8,
+      "alert": 10,
+      "status": "Critical"
+    },
+    {
+      "id": "1746983796904",
+      "name": "BonecaAmbalaluewq",
+      "stock": 5,
+      "alert": 10,
+      "status": "Critical"
+    },
+    {
+      "id": "1746983804559",
+      "name": "BonecaAmbalalu",
+      "stock": 6,
+      "alert": 10,
+      "status": "Critical"
+    },
+    {
+      "id": "1746983826679",
+      "name": "BonecaAmbalaluuyttttttttttttttt",
+      "stock": 15,
+      "alert": 10,
+      "status": "Warning"
+    }
+  ]
+}
