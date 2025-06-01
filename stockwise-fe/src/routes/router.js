@@ -4,6 +4,8 @@ import { renderDashboardPage } from '../pages/dashboard.js';
 import { renderInventoryPage } from '../pages/inventory.js';
 import { renderAboutPage } from '../pages/about.js';
 import { renderDistributionPage } from '../pages/distribution.js';
+import { renderTransactionPage } from '../pages/transaction.js';
+import { renderStockPredictionPage } from '../pages/stock-prediction.js';
 
 export function handleRouting() {
   const hash = window.location.hash;
@@ -20,6 +22,12 @@ export function handleRouting() {
       break;
     case '#/inventory':
       renderInventoryPage();
+      break;
+    case '#/transaction':
+      renderTransactionPage();
+      break;
+    case '#/stock-prediction':
+      renderStockPredictionPage();
       break;
     case '#/about':
       renderAboutPage();
