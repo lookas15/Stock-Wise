@@ -7,7 +7,7 @@ import inventoryRoutes from './routes/inventoryRoutes.js';
 import predictionRoutes from './routes/predictionRoutes.js'; // ✅ use `import` not `require`
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
