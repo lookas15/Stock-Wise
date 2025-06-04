@@ -25,6 +25,19 @@ export async function renderDashboardPage() {
     swal("Offline Mode", "Using cached inventory data", "warning");
   }
 
+  const showStockAlert = () => {
+    const understocked = inventoryData.filter(item => item.status === 'understock');
+    if (understocked.length > 0) {
+      const alertList = understocked.map(item => `• ${item.name}`).join('\n');
+      swal({
+        title: "Stock Alert 🚨",
+        text: `The following pizzas are understocked:\n\n${alertList}`,
+        icon: "warning",
+        button: "Got it"
+      });
+    }
+  };
+
   const stockAlertRows = inventoryData
     .filter(item => item.status === 'understock')
     .map(item => `
@@ -70,17 +83,18 @@ export async function renderDashboardPage() {
         </div>
       </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white shadow rounded-lg p-4 h-64">
-          <h2 class="text-lg font-semibold mb-2">Stock Overview (Bar)</h2>
-          <canvas id="barChart" width="400" height="200"></canvas>
-        </div>
-        <div class="bg-white shadow rounded-lg p-4 h-64">
-          <h2 class="text-lg font-semibold mb-2">Stock Distribution (Pie)</h2>
-          <canvas id="pieChart" width="400" height="200"></canvas>
-        </div>
-      </div>
-
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+  <div class="bg-white shadow rounded-lg p-4 h-64">
+    <h2 class="text-lg font-semibold mb-2">Stock Overview (Bar)</h2>
+    <canvas id="barChart" class="w-full h-full"></canvas>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 h-[22rem]"> <!-- Increased height -->
+    <h2 class="text-lg font-semibold mb-2">Stock Distribution (Pie)</h2>
+    <div class="relative w-full h-[17rem]"> <!-- Ensures full sizing -->
+      <canvas id="pieChart" class="w-full h-full"></canvas>
+    </div>
+  </div>
+</div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div class="bg-white shadow rounded-lg p-4">
           <h2 class="text-lg font-semibold mb-4">Stock Alert</h2>
@@ -144,45 +158,56 @@ export async function renderDashboardPage() {
 
   if (inventoryData.length === 0) return;
 
-  const labels = inventoryData.map(i => i.name);
-  const actuals = inventoryData.map(i => i.actual);
+  // ✅ Fix chart rendering: delay until DOM is ready
+  requestAnimationFrame(() => {
+    const labels = inventoryData.map(i => i.name);
+    const actuals = inventoryData.map(i => i.actual);
 
-  new Chart(document.getElementById('barChart'), {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Stock Quantity',
-        data: actuals,
-        backgroundColor: 'rgba(59, 130, 246, 0.6)',
-        borderColor: 'rgba(59, 130, 246, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true } }
+    const barCanvas = document.getElementById('barChart');
+    const pieCanvas = document.getElementById('pieChart');
+
+    if (!barCanvas || !pieCanvas) {
+      console.error("Canvas not found for charts.");
+      return;
     }
-  });
 
-  new Chart(document.getElementById('pieChart'), {
-    type: 'pie',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Stock Distribution',
-        data: actuals,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(153, 102, 255, 0.6)',
-          'rgba(255, 159, 64, 0.6)'
-        ]
-      }]
-    },
-    options: { responsive: true }
+    new Chart(barCanvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Stock Quantity',
+          data: actuals,
+          backgroundColor: 'rgba(59, 130, 246, 0.6)',
+          borderColor: 'rgba(59, 130, 246, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    new Chart(pieCanvas, {
+      type: 'pie',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Stock Distribution',
+          data: actuals,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)'
+          ]
+        }]
+      },
+      options: { responsive: true }
+    });
   });
 }
