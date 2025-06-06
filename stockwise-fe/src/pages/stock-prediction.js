@@ -12,7 +12,7 @@ export async function renderStockPredictionPage() {
   // Ambil data transaksi dari API
   async function fetchTransactions() {
     try {
-      const res = await fetch('http://localhost:8000/transactions');
+      const res = await fetch('https://backend-ml-production-9065.up.railway.app/transactions');
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       transactions = await res.json();
     } catch (error) {
@@ -123,7 +123,7 @@ export async function renderStockPredictionPage() {
         const formData = new FormData();
         formData.append('predict_date', date);
 
-        const response = await fetch('http://localhost:8000/predict', {
+        const response = await fetch('https://backend-ml-production-9065.up.railway.app/predict', {
           method: 'POST',
           body: formData
         });
