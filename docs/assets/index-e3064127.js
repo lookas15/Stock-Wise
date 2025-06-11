@@ -301,7 +301,7 @@ ${l}`,icon:"warning",button:"Got it"})}},n=t.filter(a=>a.status==="understock").
         </table>
       </div>
     </div>
-  `;i.innerHTML=Ot(r),document.getElementById("alert-btn").onclick=e,document.getElementById("logout-btn").onclick=()=>{localStorage.removeItem("authToken"),location.href="./#/login"},t.length!==0&&requestAnimationFrame(()=>{const a=t.map(h=>h.name),l=t.map(h=>h.actual),c=document.getElementById("barChart"),d=document.getElementById("pieChart");if(!c||!d){console.error("Canvas not found for charts.");return}new ct(c,{type:"bar",data:{labels:a,datasets:[{label:"Stock Quantity",data:l,backgroundColor:"rgba(59, 130, 246, 0.6)",borderColor:"rgba(59, 130, 246, 1)",borderWidth:1}]},options:{responsive:!0,plugins:{legend:{display:!1}},scales:{y:{beginAtZero:!0}}}}),new ct(d,{type:"pie",data:{labels:a,datasets:[{label:"Stock Distribution",data:l,backgroundColor:["rgba(255, 99, 132, 0.6)","rgba(54, 162, 235, 0.6)","rgba(255, 206, 86, 0.6)","rgba(75, 192, 192, 0.6)","rgba(153, 102, 255, 0.6)","rgba(255, 159, 64, 0.6)"]}]},options:{responsive:!0}})})}const Ss=["Hawaiian Pizza","Barbecue Chicken Pizza","Pepperoni Pizza","Vegetarian Pizza","Margherita Pizza","Meat Lovers Pizza","Supreme Pizza","Buffalo Chicken Pizza","Cheese Pizza","Mexican Greenwave Pizza"];function Xd(){const i=document.getElementById("app");async function t(){try{const o=await(await fetch("https://stock-wise-production.up.railway.app/api/inventory")).json();return await Po("inventory",o),o}catch(s){console.warn("Network failed, loading from IndexedDB",s);const o=await To("inventory");return(!o||o.length===0)&&X("Offline Error","No cached inventory data found.","error"),o}}async function e(){const r=`
+  `;i.innerHTML=Ot(r),document.getElementById("alert-btn").onclick=e,document.getElementById("logout-btn").onclick=()=>{localStorage.removeItem("authToken"),location.href="/Stock-Wise/"},t.length!==0&&requestAnimationFrame(()=>{const a=t.map(h=>h.name),l=t.map(h=>h.actual),c=document.getElementById("barChart"),d=document.getElementById("pieChart");if(!c||!d){console.error("Canvas not found for charts.");return}new ct(c,{type:"bar",data:{labels:a,datasets:[{label:"Stock Quantity",data:l,backgroundColor:"rgba(59, 130, 246, 0.6)",borderColor:"rgba(59, 130, 246, 1)",borderWidth:1}]},options:{responsive:!0,plugins:{legend:{display:!1}},scales:{y:{beginAtZero:!0}}}}),new ct(d,{type:"pie",data:{labels:a,datasets:[{label:"Stock Distribution",data:l,backgroundColor:["rgba(255, 99, 132, 0.6)","rgba(54, 162, 235, 0.6)","rgba(255, 206, 86, 0.6)","rgba(75, 192, 192, 0.6)","rgba(153, 102, 255, 0.6)","rgba(255, 159, 64, 0.6)"]}]},options:{responsive:!0}})})}const Ss=["Hawaiian Pizza","Barbecue Chicken Pizza","Pepperoni Pizza","Vegetarian Pizza","Margherita Pizza","Meat Lovers Pizza","Supreme Pizza","Buffalo Chicken Pizza","Cheese Pizza","Mexican Greenwave Pizza"];function Xd(){const i=document.getElementById("app");async function t(){try{const o=await(await fetch("https://stock-wise-production.up.railway.app/api/inventory")).json();return await Po("inventory",o),o}catch(s){console.warn("Network failed, loading from IndexedDB",s);const o=await To("inventory");return(!o||o.length===0)&&X("Offline Error","No cached inventory data found.","error"),o}}async function e(){const r=`
       <h1 class="text-3xl font-semibold mb-4">Inventory</h1>
       <div class="bg-white shadow rounded-lg p-4">
         <h2 class="text-lg font-semibold mb-4">Inventory Table</h2>
@@ -342,7 +342,7 @@ ${Ss.join(", ")}`,"error");const f=await fetch("https://stock-wise-production.up
   `)}function qd(){const i=document.getElementById("app");i.innerHTML=Ot(`
     <h1 class="text-4xl font-bold mb-4 text-gray-800">Distribution</h1>
     <p class="text-lg text-gray-600">Distribution and logistics data will be shown here.</p>
-  `)}async function Gd(){const i=document.getElementById("app");let t=[],e="order_id",n=!0,s="";async function o(){try{const d=await fetch("http://localhost:8000/transactions");if(!d.ok)throw new Error(`HTTP error! status: ${d.status}`);t=await d.json()}catch(d){console.error("Failed to fetch transactions:",d),t=[]}}function r(d){return d.slice().sort((h,u)=>{let f=h[e],p=u[e];return e==="order_date"&&(f=new Date(f),p=new Date(p)),f<p?n?-1:1:f>p?n?1:-1:0})}function a(d){const h=r(d);function u(p){return p!==e?"":n?"▲":"▼"}const f=h.map(p=>`
+  `)}async function Gd(){const i=document.getElementById("app");let t=[],e="order_id",n=!0,s="";async function o(){try{const d=await fetch("https://backend-ml-production-9065.up.railway.app/transactions");if(!d.ok)throw new Error(`HTTP error! status: ${d.status}`);t=await d.json()}catch(d){console.error("Failed to fetch transactions:",d),t=[]}}function r(d){return d.slice().sort((h,u)=>{let f=h[e],p=u[e];return e==="order_date"&&(f=new Date(f),p=new Date(p)),f<p?n?-1:1:f>p?n?1:-1:0})}function a(d){const h=r(d);function u(p){return p!==e?"":n?"▲":"▼"}const f=h.map(p=>`
       <tr class="border-t hover:bg-gray-100 cursor-default">
         <td class="py-2 px-4">${p.order_id}</td>
         <td class="py-2 px-4">${p.pizza_name}</td>
@@ -404,7 +404,7 @@ ${Ss.join(", ")}`,"error");const f=await fetch("https://stock-wise-production.up
           ${a(d)}
         </div>
       </div>
-    `;i.innerHTML=Ot(h);const u=document.getElementById("transaction-form");u.addEventListener("submit",async b=>{b.preventDefault();const g={order_id:u.order_id.value.trim(),pizza_name:u.pizza_name.value.trim(),quantity:Number(u.quantity.value),order_date:u.order_date.value,unit_price:Number(u.unit_price.value)};try{const x=await fetch("http://localhost:8000/transactions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(g)});if(!x.ok){const y=await x.text();throw new Error(`Failed to add transaction: ${y}`)}t.push(g),u.reset(),c()}catch(x){console.error(x),alert("Gagal menambahkan transaksi.")}}),i.querySelectorAll("th[data-key]").forEach(b=>{b.addEventListener("click",()=>{const g=b.getAttribute("data-key");e===g?n=!n:(e=g,n=!0),c()})});const p=document.getElementById("searchBtn"),m=document.getElementById("searchInput");m.value=s,p.addEventListener("click",()=>{s=m.value.trim(),c()})}await o(),c()}async function Jd(){const i=document.getElementById("app");let t=[],e=null;async function n(){try{const l=await fetch("http://localhost:8000/transactions");if(!l.ok)throw new Error(`HTTP error! status: ${l.status}`);t=await l.json()}catch(l){console.error("Failed to fetch transactions:",l),t=[]}}function s(){const l={};return t.forEach(c=>{l[c.pizza_name]=(l[c.pizza_name]||0)+c.quantity}),l}function o(){const l=s();return`
+    `;i.innerHTML=Ot(h);const u=document.getElementById("transaction-form");u.addEventListener("submit",async b=>{b.preventDefault();const g={order_id:u.order_id.value.trim(),pizza_name:u.pizza_name.value.trim(),quantity:Number(u.quantity.value),order_date:u.order_date.value,unit_price:Number(u.unit_price.value)};try{const x=await fetch("https://backend-ml-production-9065.up.railway.app/transactions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(g)});if(!x.ok){const y=await x.text();throw new Error(`Failed to add transaction: ${y}`)}t.push(g),u.reset(),c()}catch(x){console.error(x),alert("Gagal menambahkan transaksi.")}}),i.querySelectorAll("th[data-key]").forEach(b=>{b.addEventListener("click",()=>{const g=b.getAttribute("data-key");e===g?n=!n:(e=g,n=!0),c()})});const p=document.getElementById("searchBtn"),m=document.getElementById("searchInput");m.value=s,p.addEventListener("click",()=>{s=m.value.trim(),c()})}await o(),c()}async function Jd(){const i=document.getElementById("app");let t=[],e=null;async function n(){try{const l=await fetch("https://backend-ml-production-9065.up.railway.app/transactions");if(!l.ok)throw new Error(`HTTP error! status: ${l.status}`);t=await l.json()}catch(l){console.error("Failed to fetch transactions:",l),t=[]}}function s(){const l={};return t.forEach(c=>{l[c.pizza_name]=(l[c.pizza_name]||0)+c.quantity}),l}function o(){const l=s();return`
       <table class="min-w-full border-collapse border border-gray-300 mb-6">
         <thead>
           <tr class="bg-gray-200">
@@ -421,16 +421,27 @@ ${Ss.join(", ")}`,"error");const f=await fetch("https://stock-wise-production.up
     `).join("")||'<tr><td colspan="2" class="text-center p-4 text-gray-500">No data available</td></tr>'}
         </tbody>
       </table>
-    `}function r(){return e?`
-      <div class="mt-6 p-4 bg-green-100 border border-green-400 rounded max-w-md mx-auto">
-        <h3 class="font-semibold mb-2">Prediction for ${e.date}:</h3>
-        <ul>
-          ${Object.entries(e.predictions).map(([l,c])=>`
-            <li>${l}: ${c} pizzas</li>
-          `).join("")}
-        </ul>
-      </div>
-    `:""}function a(){const l=`
+    `}function r(){if(!e)return"";const l=Object.entries(e.predictions).map(([c,d])=>`
+    <tr>
+      <td class="border px-4 py-2">${c}</td>
+      <td class="border px-4 py-2 text-center">${d}</td>
+    </tr>
+  `).join("");return`
+    <div class="mt-6 max-w-md mx-auto">
+      <h3 class="font-semibold mb-2">Prediction for ${e.date}:</h3>
+      <table class="min-w-full border-collapse border border-gray-300">
+        <thead>
+          <tr class="bg-green-200">
+            <th class="border border-gray-300 px-4 py-2 text-left">Pizza Name</th>
+            <th class="border border-gray-300 px-4 py-2 text-center">Predicted Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${l||'<tr><td colspan="2" class="text-center p-4 text-gray-500">No prediction data</td></tr>'}
+        </tbody>
+      </table>
+    </div>
+  `}function a(){const l=`
       <div class="min-h-screen bg-gray-100 p-6 text-gray-800">
         <h1 class="text-2xl font-bold mb-6">Pizza Stock Prediction</h1>
 
@@ -439,10 +450,17 @@ ${Ss.join(", ")}`,"error");const f=await fetch("https://stock-wise-production.up
 
         <form id="prediction-form" class="max-w-md mx-auto bg-white p-4 rounded shadow">
           <label for="predict_date" class="block mb-2 font-medium">Enter Date to Predict (YYYY-MM-DD):</label>
-          <input type="date" id="predict_date" name="predict_date" required class="w-full border rounded px-3 py-2 mb-4" />
+          <input
+            type="date"
+            id="predict_date"
+            name="predict_date"
+            value="2015-12-31"
+            required
+            class="w-full border rounded px-3 py-2 mb-4"
+          />
           <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Predict</button>
         </form>
 
         ${r()}
       </div>
-    `;i.innerHTML=Ot(l);const c=document.getElementById("prediction-form");c.addEventListener("submit",d=>{d.preventDefault();const h=c.predict_date.value;if(!h)return alert("Please enter a valid date.");const u=s(),f={};for(const[p,m]of Object.entries(u))f[p]=Math.round(m*.1);e={date:h,predictions:f},a()})}await n(),a()}function Co(){switch(window.location.hash){case"#/login":en();break;case"#/register":Eo();break;case"#/dashboard":Ud();break;case"#/inventory":Xd();break;case"#/transaction":Gd();break;case"#/stock-prediction":Jd();break;case"#/about":Kd();break;case"#/distribution":qd();break;default:en();break}}const Zd="modulepreload",Qd=function(i){return"/Stock-Wise/"+i},Os={},th=function(t,e,n){if(!e||e.length===0)return t();const s=document.getElementsByTagName("link");return Promise.all(e.map(o=>{if(o=Qd(o),o in Os)return;Os[o]=!0;const r=o.endsWith(".css"),a=r?'[rel="stylesheet"]':"";if(!!n)for(let d=s.length-1;d>=0;d--){const h=s[d];if(h.href===o&&(!r||h.rel==="stylesheet"))return}else if(document.querySelector(`link[href="${o}"]${a}`))return;const c=document.createElement("link");if(c.rel=r?"stylesheet":Zd,r||(c.as="script",c.crossOrigin=""),c.href=o,document.head.appendChild(c),r)return new Promise((d,h)=>{c.addEventListener("load",d),c.addEventListener("error",()=>h(new Error(`Unable to preload CSS for ${o}`)))})})).then(()=>t()).catch(o=>{const r=new Event("vite:preloadError",{cancelable:!0});if(r.payload=o,window.dispatchEvent(r),!r.defaultPrevented)throw o})};function eh(i={}){const{immediate:t=!1,onNeedRefresh:e,onOfflineReady:n,onRegistered:s,onRegisteredSW:o,onRegisterError:r}=i;let a,l;const c=async(h=!0)=>{await l};async function d(){if("serviceWorker"in navigator){if(a=await th(()=>import("./workbox-window.prod.es5-5ffdab76.js"),[]).then(({Workbox:h})=>new h("/Stock-Wise/sw.js",{scope:"/Stock-Wise/",type:"classic"})).catch(h=>{r==null||r(h)}),!a)return;a.addEventListener("activated",h=>{(h.isUpdate||h.isExternal)&&window.location.reload()}),a.addEventListener("installed",h=>{h.isUpdate||n==null||n()}),a.register({immediate:t}).then(h=>{o?o("/Stock-Wise/sw.js",h):s==null||s(h)}).catch(h=>{r==null||r(h)})}}return l=d(),c}window.addEventListener("offline",()=>{const i=document.createElement("div");i.innerText="⚠️ You're offline",i.style.position="fixed",i.style.bottom="20px",i.style.left="50%",i.style.transform="translateX(-50%)",i.style.background="#f87171",i.style.color="white",i.style.padding="10px 20px",i.style.borderRadius="8px",i.style.zIndex="9999",document.body.appendChild(i),setTimeout(()=>i.remove(),3e3)});window.addEventListener("DOMContentLoaded",Co);window.addEventListener("hashchange",Co);eh({immediate:!0});
+    `;i.innerHTML=Ot(l);const c=document.getElementById("prediction-form");c.addEventListener("submit",async d=>{d.preventDefault();const h=c.predict_date.value;if(!h)return alert("Please enter a valid date.");try{const u=new FormData;u.append("predict_date",h);const p=await(await fetch("https://backend-ml-production-9065.up.railway.app/predict",{method:"POST",body:u})).json();if(p.error){alert(`Prediction error: ${p.error}`);return}e={date:h,predictions:p.predictions},a()}catch(u){alert("Failed to fetch prediction from server."),console.error(u)}})}await n(),a()}function Co(){switch(window.location.hash){case"#/login":en();break;case"#/register":Eo();break;case"#/dashboard":Ud();break;case"#/inventory":Xd();break;case"#/transaction":Gd();break;case"#/stock-prediction":Jd();break;case"#/about":Kd();break;case"#/distribution":qd();break;default:en();break}}const Zd="modulepreload",Qd=function(i){return"/Stock-Wise/"+i},Os={},th=function(t,e,n){if(!e||e.length===0)return t();const s=document.getElementsByTagName("link");return Promise.all(e.map(o=>{if(o=Qd(o),o in Os)return;Os[o]=!0;const r=o.endsWith(".css"),a=r?'[rel="stylesheet"]':"";if(!!n)for(let d=s.length-1;d>=0;d--){const h=s[d];if(h.href===o&&(!r||h.rel==="stylesheet"))return}else if(document.querySelector(`link[href="${o}"]${a}`))return;const c=document.createElement("link");if(c.rel=r?"stylesheet":Zd,r||(c.as="script",c.crossOrigin=""),c.href=o,document.head.appendChild(c),r)return new Promise((d,h)=>{c.addEventListener("load",d),c.addEventListener("error",()=>h(new Error(`Unable to preload CSS for ${o}`)))})})).then(()=>t()).catch(o=>{const r=new Event("vite:preloadError",{cancelable:!0});if(r.payload=o,window.dispatchEvent(r),!r.defaultPrevented)throw o})};function eh(i={}){const{immediate:t=!1,onNeedRefresh:e,onOfflineReady:n,onRegistered:s,onRegisteredSW:o,onRegisterError:r}=i;let a,l;const c=async(h=!0)=>{await l};async function d(){if("serviceWorker"in navigator){if(a=await th(()=>import("./workbox-window.prod.es5-5ffdab76.js"),[]).then(({Workbox:h})=>new h("/Stock-Wise/sw.js",{scope:"/Stock-Wise/",type:"classic"})).catch(h=>{r==null||r(h)}),!a)return;a.addEventListener("activated",h=>{(h.isUpdate||h.isExternal)&&window.location.reload()}),a.addEventListener("installed",h=>{h.isUpdate||n==null||n()}),a.register({immediate:t}).then(h=>{o?o("/Stock-Wise/sw.js",h):s==null||s(h)}).catch(h=>{r==null||r(h)})}}return l=d(),c}window.addEventListener("offline",()=>{const i=document.createElement("div");i.innerText="⚠️ You're offline",i.style.position="fixed",i.style.bottom="20px",i.style.left="50%",i.style.transform="translateX(-50%)",i.style.background="#f87171",i.style.color="white",i.style.padding="10px 20px",i.style.borderRadius="8px",i.style.zIndex="9999",document.body.appendChild(i),setTimeout(()=>i.remove(),3e3)});window.addEventListener("DOMContentLoaded",Co);window.addEventListener("hashchange",Co);eh({immediate:!0});
